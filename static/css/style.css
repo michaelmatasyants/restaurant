@@ -1,0 +1,233 @@
+/* CSS Variables */
+   :root {
+    --chocolate-color: #3a2320;
+    --bg-pink: #ccbebd;
+    --white: #ffffff;
+    --font-main: "Arial", sans-serif;
+  }
+  
+  /* Base */
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-main);
+    height: 100%;
+  }
+  
+  body {
+    background-color: var(--bg-pink);
+    flex-direction: column;
+    min-height: 100vh;
+    display: flex;
+  }
+  
+  /* Header */
+  header {
+    background-color: var(--chocolate-color);
+    padding: 16px;
+  }
+  
+  header h1 {
+    color: var(--white);
+    margin: 0;
+  }
+
+  .revenue-heading {
+    text-align: center;
+  }
+  
+  /* Navigation */
+  nav ul {
+    list-style: none;
+    display: flex;
+    margin: 8px 0 0 0;
+    padding: 0;
+    gap: 16px;
+  }
+  
+  nav li {
+    display: inline-block;
+  }
+  
+  nav a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  nav a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Main Content */
+  main {
+    flex: 1;
+    padding: 16px;
+  }
+  
+  main h1 {
+    margin-top: 0;
+    color: var(--chocolate-color);
+  }
+  
+  /* Footer */
+  footer {
+    position: relative;
+    width: 100%;
+    background-color: var(--chocolate-color);
+    color: var(--white);
+    text-align: center;
+    padding: 10px 0;
+    z-index: 10;
+  }
+  
+  footer p {
+    margin: 0;
+  }
+  
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    background-color: var(--white);
+  }
+  
+  table thead {
+    background-color: #f3f3f3;
+  }
+  
+  table th, table td {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    text-align: center;
+  }
+
+  .revenue-table {
+    width: 60%;
+    margin: 0 auto;
+    font-size: 14px;
+  }
+
+  .revenue-table th, .revenue-table td {
+    padding: 8px;
+  }
+
+  
+  /* Zebra for table rows */
+  tbody tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+  
+  /* Forms / Inputs */
+  input[type="text"],
+  button {
+    font-family: inherit;
+    font-size: 14px;
+  }
+  
+  input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    margin-right: 4px;
+  }
+  
+  #id_comment {
+    height: 30px;
+    width: 300px;
+    resize: none;
+  }
+
+  /*Buttons*/
+  
+  /* Base button style */
+  .btn-base {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  /* Rectangular chocolate button */
+  .btn-rect {
+    background-color: var(--chocolate-color);
+    color: var(--white);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+  }
+  
+  .btn-rect:hover {
+    background-color: #2c1a18;
+  }
+  
+  /* Pill button */
+  .btn-pill {
+    border: 2px solid var(--chocolate-color);
+    border-radius: 9999px;
+    padding: 8px 16px;
+    background-color: transparent;
+    color: var(--chocolate-color);
+  }
+  
+  .btn-pill:hover {
+    background-color: var(--chocolate-color);
+    color: var(--white);
+  }
+  
+  .button-container {
+    position: absolute;
+    top: 12%;
+    right: 1%;
+    z-index: 10;
+  }
+
+  /* Flexbox container for dishes in create order */
+  .order-item-row {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .order-item-row .form-field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .order-item-row select {
+    width: 300px;
+  }
+
+  .order-item-row input {
+    width: 50px;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 10px;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  textarea {
+    resize: vertical;
+    height: 100%;
+  }
+
+  /* Error message */
+  .form-errors {
+    color: red;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }

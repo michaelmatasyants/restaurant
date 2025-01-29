@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ page_title }}{% endblock title %}
+
+{% block content %}
+<h1>{{ page_title }}</h1>
+
+<div class="button-container">
+  <a href="{% url 'orders:order_create' %}" class="btn-base btn-pill">Создать новый заказ</a>
+</div>
+
+<form method="GET" action="{% url 'orders:order_search' %}">
+  <input type="text" name="search" value="{{ search_query }}" placeholder="Cтол или статус заказа">
+  <button type="submit" class="btn-base btn-rect">Поиск</button>
+</form>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Дата создания</th>
+      <th>Сотрудник</th>
+      <th>Стол</th>
+      <th>Статус</th>
+      <th>Блюда</th>
+      <th>Стоимость</th>
+      <th>Действия</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in orders %}
+      <tr>
+        <td>{{ order.id }}</td>
+        <td>{{ order.registered_at|date:"d.m.Y H:i" }}</td>
+        <td>{{ order.employee }}</td>
+        <td>{{ order.table_number }}</td>
+        <td>{{ order.get_status_display|capfirst }}</td>
+        <td>
+          {% for item in order.items.all %}
+          {{ item.dish.name }} - {{ item.quantity }}шт.<br>
+          {% endfor %}
+        </td>
+        <td>{{ order.price|default_if_none:"0" }} руб.</td>
+        <td>
+          <a href="{% url 'orders:order_edit' order.id %}" class="btn-base btn-rect">Изменить</a>
+          <form action="{% url 'orders:order_delete' order.id %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn-base btn-rect" onclick="return confirm('Вы уверены, что хотите удалить заказ?');">Удалить</button>
+          </form>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="8">Ничего не найдено</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Шоколадница{% endblock title %}</title>
+    {% load static %} 
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+<body>
+    <header>
+        <h1>Шоколадница</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'orders:order_list' %}">Все заказы</a></li>
+                <li><a href="{% url 'orders:revenue_report' %}">Выручка за смену</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        {% block content %}
+        {% endblock content %}
+    </main>
+
+    <footer>
+        <p>&copy; {% now "Y" %} Шоколадница</p>
+    </footer>
+</body>
+</html>

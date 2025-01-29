@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ page_title }}{% endblock title %}
+
+{% block content %}
+<h1>{{ page_title }}</h1>
+
+<form method="POST">
+  {% csrf_token %}
+
+  <!-- Non-field errors -->
+  {% if form.non_field_errors %}
+    <div class="form-errors">
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
+
+  <!-- Order Details -->
+  <div class="form-row">
+    <div class="form-field">
+      <label for="id_table_number">Номер стола:</label>
+      {{ form.table_number }}
+      {% if form.table_number.errors %}
+        <div class="form-errors">{{ form.table_number.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div class="form-field">
+      <label for="id_employee">Сотрудник:</label>
+      {{ form.employee }}
+      {% if form.employee.errors %}
+        <div class="form-errors">{{ form.employee.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div class="form-field">
+        <label for="id_status">Статус заказа:</label>
+        {{ form.status }}
+        {% if form.status.errors %}
+          <div class="form-errors">{{ form.status.errors }}</div>
+        {% endif %}
+      </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-field">
+      <label for="id_comment">Комментарий:</label>
+      {{ form.comment }}
+      {% if form.comment.errors %}
+        <div class="form-errors">{{ form.comment.errors }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <hr>
+  <h2>Позиции в заказе</h2>
+
+  <!-- Non-form errors for items -->
+  {% if items_formset.non_form_errors %}
+    <div class="form-errors">
+      {{ items_formset.non_form_errors }}
+    </div>
+  {% endif %}
+
+  {{ items_formset.management_form }}
+
+  <!-- Dishes Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Блюдо</th>
+        <th>Количество</th>
+        <th>Удалить</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item_form in items_formset %}
+        <tr>
+          <td>
+            {{ item_form.dish }}
+            {% if item_form.dish.errors %}
+              <div class="form-errors">{{ item_form.dish.errors }}</div>
+            {% endif %}
+          </td>
+          <td>
+            {{ item_form.quantity }}
+            {% if item_form.quantity.errors %}
+              <div class="form-errors">{{ item_form.quantity.errors }}</div>
+            {% endif %}
+          </td>
+          <td>
+            {{ item_form.DELETE }}
+          </td>
+          {{ item_form.id }}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Add New Dish -->
+  <template id="empty-form">
+    <tr>
+      <td>{{ items_formset.empty_form.dish }}</td>
+      <td>{{ items_formset.empty_form.quantity }}</td>
+      <td>{{ items_formset.empty_form.DELETE }}</td>
+    </tr>
+  </template>
+  <button type="button" id="add-item-btn">Добавить блюдо</button>
+  <hr>
+  <button type="submit">Сохранить</button>
+</form>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const addBtn = document.getElementById("add-item-btn");
+    const formsetContainer = document.querySelector("tbody");
+    const emptyFormTemplate = document.getElementById("empty-form");
+    const totalFormsInput = document.querySelector("[name='items-TOTAL_FORMS']");
+
+    addBtn.addEventListener("click", function () {
+        const currentFormCount = parseInt(totalFormsInput.value, 10);
+        let newRowHtml = emptyFormTemplate.innerHTML.trim();
+        const newFormIndex = currentFormCount;
+        newRowHtml = newRowHtml.replace(/__prefix__/g, newFormIndex);
+        const tempDiv = document.createElement("tbody");
+        tempDiv.innerHTML = newRowHtml;
+        formsetContainer.appendChild(tempDiv.firstElementChild);
+
+        totalFormsInput.value = currentFormCount + 1;
+    });
+});
+
+
+</script>
+{% endblock %}

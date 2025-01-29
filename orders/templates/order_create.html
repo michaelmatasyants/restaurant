@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ page_title }}{% endblock title %}
+{% block content %}
+<h1>{{ page_title }}</h1>
+
+<form method="POST">
+  {% csrf_token %}
+  
+  {% if form.non_field_errors %}
+    <div style="color:red;">
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
+
+  <div class="form-row">
+    <!-- Table number -->
+    <div class="form-field">
+      <label for="id_table_number">Номер стола:</label>
+      {{ form.table_number }}
+      {% if form.table_number.errors %}
+        <div class="form-errors">{{ form.table_number.errors }}</div>
+      {% endif %}
+    </div>
+  </div>
+  
+    <!-- Employee -->
+  <div class="form-row">
+    <div class="form-field">
+      <label for="id_employee">Сотрудник:</label>
+      {{ form.employee }}
+      {% if form.employee.errors %}
+        <div style="color:red;">{{ form.employee.errors }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Comment -->
+  <div class="form-row">
+    <div class="form-field">
+      <label for="id_comment">Комментарий:</label>
+      {{ form.comment }}
+      {% if form.comment.errors %}
+        <div style="color:red;">{{ form.comment.errors }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <hr>
+  <h2>Позиции в заказе</h2>
+
+
+  <!-- Non-form errors -->
+  {% if items_formset.non_form_errors %}
+    <div class="form-errors">
+      {{ items_formset.non_form_errors }}
+    </div>
+  {% endif %}
+
+  
+  {{ items_formset.management_form }}
+
+  <div id="formset-container">
+    {% for item_form in items_formset %}
+      <div class="order-item-row">
+        <!-- Error message -->
+        {% if item_form.non_field_errors %}
+          <div class="form-errors">
+            {{ item_form.non_field_errors }}
+          </div>
+        {% endif %}
+  
+        <!-- Dish field -->
+        <div class="form-field">
+          {{ item_form.dish.label_tag }}
+          {{ item_form.dish }}
+        </div>
+  
+        <!-- Quantity field -->
+        <div class="form-field">
+          {{ item_form.quantity.label_tag }}
+          {{ item_form.quantity }}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  
+  <!-- Hidden for cloning -->
+  <div id="empty-form" style="display:none;">
+    <div class="order-item-row">
+      <div class="form-field">
+        {{ items_formset.empty_form.dish.label_tag }}
+        {{ items_formset.empty_form.dish }}
+      </div>
+      <div class="form-field">
+        {{ items_formset.empty_form.quantity.label_tag }}
+        {{ items_formset.empty_form.quantity }}
+      </div>
+    </div>
+  </div>
+
+  <div id="empty-form" style="display:none;">
+    {{ items_formset.empty_form }}
+  </div>
+
+  <button type="button" id="add-item-btn">Добавить блюдо</button>
+  
+  <hr>
+  
+  <button type="submit">Сохранить</button>
+</form>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const addBtn = document.getElementById("add-item-btn");
+  const formsetContainer = document.getElementById("formset-container");
+  
+  const emptyFormDiv = document.getElementById("empty-form");
+  
+  const totalFormsInput = document.querySelector("[name='items-TOTAL_FORMS']");
+  
+  addBtn.addEventListener("click", function() {
+    const currentFormCount = parseInt(totalFormsInput.value, 10);
+    let newFormHtml = emptyFormDiv.innerHTML;
+    const newFormIndex = currentFormCount;
+    newFormHtml = newFormHtml.replace(/__prefix__/g, newFormIndex);
+    const tempDiv = document.createElement("div");
+    tempDiv.classList.add("order-item");
+    tempDiv.innerHTML = newFormHtml;
+    formsetContainer.appendChild(tempDiv);
+    totalFormsInput.value = currentFormCount + 1;
+  });
+});
+</script>
+{% endblock %}
