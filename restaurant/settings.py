@@ -8,8 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = env.str('SECRET_KEY')
 
-# DEBUG = env.bool('DEBUG', False)
-DEBUG = True
+DEBUG = env.bool('DEBUG', False)
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', ['127.0.0.1', 'localhost'])
 
@@ -86,7 +85,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-INTERNAL_IPS = []
+INTERNAL_IPS = env.list('ALLOWED_HOSTS')
 
 STATIC_URL = 'static/'
 
@@ -99,7 +98,3 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 PHONENUMBER_DEFAULT_REGION = 'RU'
-
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True

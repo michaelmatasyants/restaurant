@@ -1,8 +1,13 @@
 asgiref==3.8.1
 Django==5.1.5
-django-phonenumber-field==8.0.0
+environs==14.1.0
+marshmallow==3.26.0
+packaging==24.2
+phonenumbers==8.13.53
+pip==22.0.2
+setuptools==59.6.0
 sqlparse==0.5.3
 typing_extensions==4.12.2
-environs==14.1.0
-phonenumbers==8.13.53
 whitenoise==6.8.2
+django-phonenumber-field==8.0.0
+python-dotenv==1.0.1 
